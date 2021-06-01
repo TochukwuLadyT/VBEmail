@@ -1,0 +1,30 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+	<body onmousedown = "SendPostRequestSent(event)">
+	<font color="white">
+	<div class="any">
+	<div style="color: orange"><h1> You have reached your Sent Mails folder. </h1></div><br>
+	<h3>1. To search for a specific email say Search</h3><br>
+	<h3>2. To go back to the options page say Back</h3><br>
+	<h3>3. To Logout say Logout</h3><br>
+
+	<script>
+	function SendPostRequestSent(event){
+		$.ajax({
+        url: "{% url 'voice:sent' %}",
+        method: 'POST',
+        data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success: function (data) {
+			if(data.result == 'success'){
+				window.location = "{% url 'voice:options' %}";
+			}
+			else if(data.result == 'logout'){
+				window.location = "{% url 'voice:login' %}";
+			}
+        }
+    });
+	}
+	</script>
+
+{% endblock %}

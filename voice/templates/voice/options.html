@@ -1,0 +1,51 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+	<body onmousedown = "SendPostRequestOptions(event)">
+	<font color="white">
+	<div class="any">
+
+    <div style="color: orange"><h1> You are logged into your account.	</h1></div><br>
+    <h2> What would you like to do? </h2><br>
+
+	<h3>1. To compose an email say Compose</h3><br>
+	<h3>2. To open Inbox folder say Inbox</h3><br>
+	<h3>3. To open Sent folder say Sent</h3><br>
+	<h3>4. To open Trash folder say Trash</h3><br>
+	<h3>5. To Logout say Logout</h3><br>
+	</div>
+	</font>
+	
+	
+	<script>
+	function SendPostRequestOptions(event){
+		$.ajax({
+        url: "{% url 'voice:options' %}",
+        method: 'POST',
+        data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success: function (data) {
+			if(data.result == 'compose'){
+				window.location = "{% url 'voice:compose' %}";
+			}
+			else if(data.result == 'sent'){
+				window.location = "{% url 'voice:sent' %}";
+			}	
+			else if(data.result == 'inbox'){
+				window.location = "{% url 'voice:inbox' %}";
+			}
+			else if(data.result == 'trash'){
+				window.location = "{% url 'voice:trash' %}";
+			}
+			else if(data.result == 'logout'){
+				window.location = "{% url 'voice:login' %}";
+			}
+			else if(data.result == 'failure'){
+				window.location = "{% url 'voice:options' %}";
+			}
+        }
+    });
+	}
+	</script>
+
+{% endblock %}

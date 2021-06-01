@@ -1,0 +1,1 @@
+web: gunicorn VBE.wsgi --log-file -

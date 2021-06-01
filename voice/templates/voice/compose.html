@@ -1,0 +1,26 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<body onmousedown = "WhichButtonCompose(event)">
+<font color="white">
+<div class="any">
+<div style="color: orange"><h1>Compose</h1></div><br>
+<h2> You have reached the page where you can compose and send an email. </h2>
+<script>
+	function WhichButtonCompose(event){
+		$.ajax({
+        url: "{% url 'voice:compose' %}",
+        method: 'POST',
+        data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success: function (data) {
+			if(data.result == 'success'){
+				window.location = "{% url 'voice:options' %}";
+			}
+			else if(data.result == 'failure'){
+				window.location = "{% url 'voice:compose' %}";
+			}
+        }
+    });
+	}
+</script>
+{% endblock %}

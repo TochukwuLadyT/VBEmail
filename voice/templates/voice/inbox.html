@@ -1,0 +1,36 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+	<body onmousedown = "SendPostRequestInbox(event)">
+	<font color="white">
+	<div class="any">
+
+
+    <div style="color: orange"><h1> You have reached your inbox.	</h1></div><br>
+    <h2> What would you like to do? <h2><br>
+
+	<h3>1. To read unread emails say unread</h3><br>
+	<h3>2. To search for a specific email say search</h3><br>
+	<h3>3. To go back to the options page say back</h3><br>
+	<h3>4. To Logout say Logout</h3><br>
+	
+	<script>
+	function SendPostRequestInbox(event){
+		$.ajax({
+        url: "{% url 'voice:inbox' %}",
+        method: 'POST',
+        data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success: function (data) {
+			if(data.result == 'success'){
+				window.location = "{% url 'voice:options' %}";
+			}
+			else if(data.result == 'logout'){
+				window.location = "{% url 'voice:login' %}";
+			}
+        }
+    });
+	}
+	</script>
+
+{% endblock %}

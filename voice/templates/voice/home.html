@@ -1,0 +1,43 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <body onmousedown = "SendPostRequestHome(event)" style="background: black">
+	<font color="white">
+	<div class="any">
+	<center>
+	<br><b>
+
+		<u><h1 class="display-3 font-weight-bold">WELCOME TO VOICE BASED EMAIL PORTAL!</h1>
+	</u></b><br>
+	<ul style="list-style-type:none; font-size:40px; background:black">
+	<li style="color: orange">T-Tech</li>
+	<li></li>
+	</ul>
+	<br><br><br>
+	<h2 class="display-2 font-weight-bold" style="font-size:20px; ">Bringing the modern IT world to your door step</h2>
+	</center>
+	</div>
+	</font>
+
+	
+	<script>
+	function SendPostRequestHome(event){
+		$.ajax({
+        url: "{% url 'voice:login' %}",
+
+        method: 'POST',
+        data: { 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success: function (data) {
+		
+			if(data.result == 'success'){
+				window.location = "{% url 'voice:options' %}";
+			}
+			else if(data.result == 'failure'){
+				window.location = "{% url 'voice:login' %}";
+			}
+        }
+    });
+	}
+	</script>
+
+{% endblock %}
